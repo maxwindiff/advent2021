@@ -13,7 +13,7 @@ function count_increases(nums, len)
   return inc
 end
 
-f = open("day1.txt")
+f = open("day01.txt")
 lines = readlines(f)
 nums = map(x->parse(Int32, x), lines)
 
