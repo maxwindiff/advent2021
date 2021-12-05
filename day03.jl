@@ -8,8 +8,6 @@ function part1(lines)
     end
   end
 
-  println("counts = $counts")
-
   gamma = ""
   epsilon = ""
   for i ∈ 1:len
@@ -22,11 +20,11 @@ function part1(lines)
     end
   end
 
-  println("gamma = $gamma")
-  println("epsil = $epsilon")
-
   g = parse(Int, gamma, base=2)
   e = parse(Int, epsilon, base=2)
+  println("gamma = $gamma ($g)")
+  println("epsil = $epsilon ($e)")
+
   return g * e
 end
 
@@ -53,19 +51,20 @@ function find_common(lines, most)
       break
     end
   end
-  return parse(Int, str, base=2)
+  return str
 end
 
 function part2(lines)
   oxygen = find_common(lines, true)
-  println("oxy = $oxygen")
+  o = parse(Int, oxygen, base=2)
+  println("oxy = $oxygen ($o)")
   co2 = find_common(lines, false)
-  println("co2 = $co2")
-  return oxygen * co2
+  c = parse(Int, co2, base=2)
+  println("co2 = $co2 ($c)")
+  return o * c
 end
 
-f = open("day03.txt")
-lines = readlines(f)
+lines = readlines("day03.txt")
 
 println("part1 = $(part1(lines))")
 println("part2 = $(part2(lines))")

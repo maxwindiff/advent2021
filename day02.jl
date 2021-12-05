@@ -30,11 +30,10 @@ function pos2(cmds)
   return x * y
 end
 
-f = open("day02.txt")
-cmds = map(function(x)
+cmds = map(readlines("day02.txt")) do x
   a, b = split(x)
   return (a, parse(Int32, b))
-end, readlines(f))
+end
 
 println(pos1(cmds))
 println(pos2(cmds))

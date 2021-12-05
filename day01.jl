@@ -1,8 +1,4 @@
 function count_increases(nums, len)
-  if length(nums) < len
-    return 0
-  end
-
   last = sum(nums[1:len])
   inc = 0
   for i ∈ len:length(nums)
@@ -13,8 +9,7 @@ function count_increases(nums, len)
   return inc
 end
 
-f = open("day01.txt")
-lines = readlines(f)
+lines = readlines("day01.txt")
 nums = map(x->parse(Int32, x), lines)
 
 println(count_increases(nums, 1))
