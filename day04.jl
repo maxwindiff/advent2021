@@ -6,7 +6,7 @@ function Base.iterate(b::Boards, state=nothing)
   while true
     line = readline(b.io)
     if !isempty(line)
-      push!(board, map(x -> parse(Int, x), split(line)))
+      push!(board, parse.(Int, split(line)))
     elseif !isempty(board)
       return (board, nothing)
     elseif eof(b.io)
@@ -22,10 +22,6 @@ function won(board)
   for col in eachcol(board)
     all(col .== -1) && return true
   end
-  # diag = [board[i, i] for i ∈ 1:size(board)[1]]
-  # all(diag .== -1) && return true
-  # inv_diag = [board[i, size(board)[1] - i + 1] for i ∈ 1:size(board)[1]]
-  # all(inv_diag .== -1) && return true
   return false
 end
 
@@ -41,7 +37,7 @@ function calc_score(board, seq)
     if s ∈ keys(loc)
       nd[loc[s][1], loc[s][2]] = -1
       if won(nd)
-        println("nd = $nd step = $i s = $s sum = $(sum(nd[nd .!= -1]))")
+        #println("nd = $nd step = $i s = $s sum = $(sum(nd[nd .!= -1]))")
         return i, s * sum(nd[nd .!= -1])
       end
     end
@@ -65,9 +61,9 @@ function best_board(boards, seq, want_first)
 end
 
 f = open("data/day04.txt")
-seq = map(x -> parse(Int, x), split(readline(f), ","))
-println("want_first = $(best_board(Boards(f), seq, true))")
+seq = parse.(Int, split(readline(f), ","))
+println(best_board(Boards(f), seq, true))
 
 f = open("data/day04.txt")
-seq = map(x -> parse(Int, x), split(readline(f), ","))
-println("want_last = $(best_board(Boards(f), seq, false))")
+seq = parse.(Int, split(readline(f), ","))
+println(best_board(Boards(f), seq, false))

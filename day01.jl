@@ -9,8 +9,7 @@ function count_increases(nums, len)
   return inc
 end
 
-lines = readlines("data/day01.txt")
-nums = map(x->parse(Int32, x), lines)
+nums = parse.(Int, readlines("data/day01.txt"))
 
 println(count_increases(nums, 1))
 println(count_increases(nums, 3))

@@ -10,8 +10,7 @@ function part1(lines)
     end
   end
 
-  gamma = ""
-  epsilon = ""
+  gamma, epsilon = "", ""
   for i ∈ 1:len
     if counts[i, 0] >= counts[i, 1]
       gamma *= "0"

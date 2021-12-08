@@ -1,6 +1,5 @@
 function pos1(cmds)
-  x = 0
-  y = 0
+  x, y = 0, 0
   for (cmd, n) ∈ cmds
     if cmd == "forward"
       x += n
@@ -14,9 +13,7 @@ function pos1(cmds)
 end
 
 function pos2(cmds)
-  x = 0
-  y = 0
-  aim = 0
+  x, y, aim = 0, 0, 0
   for (cmd, n) ∈ cmds
     if cmd == "forward"
       x += n
@@ -32,7 +29,7 @@ end
 
 cmds = map(readlines("data/day02.txt")) do x
   a, b = split(x)
-  return (a, parse(Int32, b))
+  return (a, parse(Int, b))
 end
 
 println(pos1(cmds))
