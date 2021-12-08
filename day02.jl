@@ -1,13 +1,13 @@
 function pos1(cmds)
   x = 0
   y = 0
-  for cmd ∈ cmds
-    if cmd[1] == "forward"
-      x += cmd[2]
-    elseif cmd[1] == "down"
-      y += cmd[2]
-    elseif cmd[1] == "up"
-      y -= cmd[2]
+  for (cmd, n) ∈ cmds
+    if cmd == "forward"
+      x += n
+    elseif cmd == "down"
+      y += n
+    elseif cmd == "up"
+      y -= n
     end
   end
   return x * y
@@ -17,14 +17,14 @@ function pos2(cmds)
   x = 0
   y = 0
   aim = 0
-  for cmd ∈ cmds
-    if cmd[1] == "forward"
-      x += cmd[2]
-      y += cmd[2] * aim
-    elseif cmd[1] == "down"
-      aim += cmd[2]
-    elseif cmd[1] == "up"
-      aim -= cmd[2]
+  for (cmd, n) ∈ cmds
+    if cmd == "forward"
+      x += n
+      y += n * aim
+    elseif cmd == "down"
+      aim += n
+    elseif cmd == "up"
+      aim -= n
     end
   end
   return x * y
