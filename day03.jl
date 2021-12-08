@@ -66,7 +66,7 @@ function part2(lines)
   return o * c
 end
 
-lines = readlines("day03.txt")
+lines = readlines("data/day03.txt")
 
 println("part1 = $(part1(lines))")
 println("part2 = $(part2(lines))")

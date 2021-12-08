@@ -1,6 +1,6 @@
 using OffsetArrays
 
-vents = map(readlines("day05.txt")) do x
+vents = map(readlines("data/day05.txt")) do x
   m = match(r"(\d+),(\d+) -> (\d+),(\d+)", x)
   n = parse.(Int, m.captures)
   return (a=(x=n[1], y=n[2]), b=(x=n[3], y=n[4]))

@@ -30,7 +30,7 @@ function pos2(cmds)
   return x * y
 end
 
-cmds = map(readlines("day02.txt")) do x
+cmds = map(readlines("data/day02.txt")) do x
   a, b = split(x)
   return (a, parse(Int32, b))
 end

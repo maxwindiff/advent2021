@@ -1,4 +1,4 @@
-nums = sort(map(x -> parse(Int, x), split(readline("day07a.txt"), ",")))
+nums = sort(map(x -> parse(Int, x), split(readline("data/day07.txt"), ",")))
 
 #median = nums[length(nums) ÷ 2]
 #println(median, ": ", sum(abs.(nums .- median)))

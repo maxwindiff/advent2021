@@ -14,7 +14,7 @@ end
 growth = sim(256)
 println(growth)
 
-state = map(x -> parse(Int, x), split(readline("day06.txt"), ","))
+state = map(x -> parse(Int, x), split(readline("data/day06.txt"), ","))
 total = 0
 for s ∈ state
   global total += growth[end - s]

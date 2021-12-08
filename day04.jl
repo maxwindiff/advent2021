@@ -64,10 +64,10 @@ function best_board(boards, seq, want_first)
   return best_score
 end
 
-f = open("day04.txt")
+f = open("data/day04.txt")
 seq = map(x -> parse(Int, x), split(readline(f), ","))
 println("want_first = $(best_board(Boards(f), seq, true))")
 
-f = open("day04.txt")
+f = open("data/day04.txt")
 seq = map(x -> parse(Int, x), split(readline(f), ","))
 println("want_last = $(best_board(Boards(f), seq, false))")
