@@ -1,17 +1,19 @@
+using OffsetArrays
+
 function part1(lines)
   len = length(lines[1])
-  counts = zeros(Int, len, 2)
+  counts = OffsetArray(zeros(Int, len, 2), 1:len, 0:1)
 
   for l ∈ lines
     for (i, c) ∈ enumerate(l)
-      counts[i, parse(Int, c)+1] += 1
+      counts[i, parse(Int, c)] += 1
     end
   end
 
   gamma = ""
   epsilon = ""
   for i ∈ 1:len
-    if counts[i, 1] >= counts[i, 2]
+    if counts[i, 0] >= counts[i, 1]
       gamma *= "0"
       epsilon *= "1"
     else
@@ -31,14 +33,14 @@ end
 function find_common(lines, most)
   str = ""
   for i ∈ 1:length(lines[1])
-    counts = zeros(Int, 2)
+    counts = OffsetArray(zeros(Int, 2), 0:1)
     for l ∈ lines
-      counts[parse(Int, l[i])+1] += 1
+      counts[parse(Int, l[i])] += 1
     end
 
-    if counts[1] > counts[2]
+    if counts[0] > counts[1]
       ch = most ? '0' : '1'
-    elseif counts[1] < counts[2]
+    elseif counts[0] < counts[1]
       ch = most ? '1' : '0'
     else
       ch = most ? '1' : '0'
