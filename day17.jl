@@ -28,7 +28,7 @@ end
 my = typemin(Int)
 trials, successes = 0, 0
 for dx ∈ 1:x2
-  for dy ∈ y1:1000
+  for dy ∈ y1:-y1
     (path, result) = sim(dx, dy)
     global trials += 1
     if result == :success
