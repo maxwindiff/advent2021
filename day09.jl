@@ -1,6 +1,6 @@
 using PaddedViews
 
-m = vcat(map(eachline("data/day09.txt")) do line
+m = vcat(map(eachline("data/day09a.txt")) do line
   transpose(parse.(Int, split(line, "")))
 end...)
 sx, sy = size(m)
@@ -12,11 +12,14 @@ masked = m[mask]
 println(sum(masked) + length(masked))
 
 # Part 2
+path = []
 function dfs((x, y), visited)
   if visited[x,y] || m[x,y] == 9
     return 0
   end
   visited[x,y] = true
+  push!(path, (x, y))
+  println(path)
 
   size = 1
   for next ∈ [(x-1,y), (x+1,y), (x,y-1), (x,y+1)]
@@ -24,12 +27,14 @@ function dfs((x, y), visited)
       size += dfs(next, visited)
     end
   end
+  pop!(path)
   return size
 end
 
 visited = zero(mask)
 basins = []
 for idx ∈ findall(==(1), mask)
+  println("=== $idx ===")
   push!(basins, dfs(Tuple(idx), visited))
 end
 sort!(basins, rev=true)
