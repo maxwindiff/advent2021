@@ -1,3 +1,5 @@
+using BitBasis: packbits
+
 struct Packet
   version::Int
   type::Int
@@ -13,12 +15,9 @@ function Base.show(io::IO, p::Packet)
   end
 end
 
-conv(bits) = parse(Int, join(bits, ""), base=2)
-convbig(bits) = parse(BigInt, join(bits, ""), base=2)
-
 function parsebits(bits)
-  version = conv(bits[1:3])
-  type = conv(bits[4:6])
+  version = packbits(reverse(bits[1:3]))
+  type = packbits(reverse(bits[4:6]))
 
   if type == 4
     buf::Vector{Int} = []
@@ -30,7 +29,7 @@ function parsebits(bits)
         break
       end
     end
-    return Packet(version, type, convbig(buf), []), i-1
+    return Packet(version, type, packbits(reverse(buf)), []), i-1
   else
     children = []
     start = 0
@@ -38,7 +37,7 @@ function parsebits(bits)
     if bits[7] == 0
       # bound by number of bits
       start = 23
-      while offset < conv(bits[8:22])
+      while offset < packbits(reverse(bits[8:22]))
         (packet, consumed) = parsebits(@view bits[(start+offset):end])
         offset += consumed
         push!(children, packet)
@@ -46,7 +45,7 @@ function parsebits(bits)
     else
       # bound by number of packets
       start = 19
-      for i ∈ 1:conv(bits[8:18])
+      for i ∈ 1:packbits(reverse(bits[8:18]))
         (packet, consumed) = parsebits(@view bits[(start+offset):end])
         offset += consumed
         push!(children, packet)
@@ -81,10 +80,8 @@ end
 
 for l ∈ eachline("data/day16.txt")
   println(l)
-  bits = reverse(digits(parse(BigInt, l, base=16), base=2, pad=length(l)*4))
-  #println(join(bits, ""))
+  bits = reverse(digits(Bool, parse(BigInt, l, base=16), base=2, pad=length(l)*4))
   packet = parsebits(bits)[1]
-  #println(packet)
   println("part1 = $(part1(packet))")
   println("part2 = $(part2(packet))")
   println()
