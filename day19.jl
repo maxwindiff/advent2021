@@ -10,26 +10,23 @@ for x ∈ (-1,1), y ∈ (-1,1), z ∈ (-1,1)
   end
 end
 
-shiftall(ps, p) = [px - p for px ∈ ps]
-rotateall(ps, r) = [r * p for p ∈ ps]
-
 function merge(s1, s2)
   for p1 ∈ s1.beacons
-    shifted1 = shiftall(s1.beacons, p1)
+    shifted1 = s1.beacons .- [p1]
     sdists1 = [sum(p.^2) for p ∈ shifted1]
 
     for p2 ∈ s2.beacons
-      shifted2 = shiftall(s2.beacons, p2)
+      shifted2 = s2.beacons .- [p2]
 
       # Sanity check
       sdists2 = [sum(p.^2) for p ∈ shifted2]
       length(intersect(sdists1, sdists2)) < 12 && continue
 
       for r ∈ rotations
-        rotated2 = rotateall(shifted2, r)
+        rotated2 = [r] .* shifted2
         if length(intersect(shifted1, rotated2)) >= 12
           return (
-            scanners=union(shiftall(s1.scanners, p1), rotateall(shiftall(s2.scanners, p2), r)),
+            scanners=union(s1.scanners .- [p1], [r] .* (s2.scanners .- [p2])),
             beacons=union(shifted1, rotated2),
           )
         end

@@ -2,7 +2,7 @@ using OffsetArrays
 
 data = map(readlines("data/day08.txt")) do x
   a, b = split(x, " | ")
-  (split(a), split(b))
+  return (split(a), split(b))
 end
 
 # Part 1

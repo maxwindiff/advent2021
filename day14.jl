@@ -10,8 +10,8 @@ end
 
 function sim(state, insertions, steps)
   state = DefaultDict(0, state)  # defensive copy since we are mutating
-  for i ∈ 1:steps
-    for (pair, count) ∈ collect(pairs(state))
+  for _ ∈ 1:steps
+    for (pair, count) ∈ collect(pairs(state))  # collect is to make a copy
       if haskey(insertions, pair)
         state[pair[1] * insertions[pair]] += count
         state[insertions[pair] * pair[2]] += count

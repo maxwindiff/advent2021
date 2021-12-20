@@ -35,7 +35,7 @@ function calc_score(board, seq)
   nd = hcat(board...)
   for (i, s) ∈ enumerate(seq)
     if s ∈ keys(loc)
-      nd[loc[s][1], loc[s][2]] = -1
+      nd[loc[s]...] = -1
       if won(nd)
         #println("nd = $nd step = $i s = $s sum = $(sum(nd[nd .!= -1]))")
         return i, s * sum(nd[nd .!= -1])

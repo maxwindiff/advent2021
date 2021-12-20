@@ -20,7 +20,7 @@ function parsebits(bits)
   type = packbits(reverse(bits[4:6]))
 
   if type == 4
-    buf::Vector{Int} = []
+    buf::Vector{Bool} = []
     i = 7
     while true
       append!(buf, bits[i+1:i+4])
@@ -59,23 +59,14 @@ part1(p) = p.version + (p.type == 4 ? 0 : sum(part1.(p.children)))
 
 function part2(p)
   c = part2.(p.children)
-  if p.type == 0
-    return sum(c)
-  elseif p.type == 1
-    return prod(c)
-  elseif p.type == 2
-    return minimum(c)
-  elseif p.type == 3
-    return maximum(c)
-  elseif p.type == 4
-    return p.value
-  elseif p.type == 5
-    return c[1] > c[2] ? 1 : 0
-  elseif p.type == 6
-    return c[1] < c[2] ? 1 : 0
-  elseif p.type == 7
-    return c[1] == c[2] ? 1 : 0
-  end
+  p.type == 0 && return sum(c)
+  p.type == 1 && return prod(c)
+  p.type == 2 && return minimum(c)
+  p.type == 3 && return maximum(c)
+  p.type == 4 && return p.value
+  p.type == 5 && return c[1] > c[2] ? 1 : 0
+  p.type == 6 && return c[1] < c[2] ? 1 : 0
+  p.type == 7 && return c[1] == c[2] ? 1 : 0
 end
 
 for l ∈ eachline("data/day16.txt")

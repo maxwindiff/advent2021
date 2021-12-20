@@ -14,10 +14,8 @@ function run_step(m)
     end
     flashed .|= flashing
 
-    for dx ∈ -1:1
-      for dy ∈ -1:1
-        m[ShiftedArray(flashing, (dx, dy), default=false)] .+= 1
-      end
+    for dx ∈ -1:1, dy ∈ -1:1
+      m[ShiftedArray(flashing, (dx, dy), default=false)] .+= 1
     end
   end
   m[flashed] .= 0
