@@ -1,26 +1,17 @@
-# https://stackoverflow.com/a/16467849
-function rot(v)
-  roll(v) = (v[1], v[3], -v[2])
-  turn(v) = (-v[2], v[1], v[3])
-  vs = []
-  for _ ∈ 1:2
-    for _ ∈ 1:3
-      v = roll(v)
-      push!(vs, v)
-      for _ ∈ 1:3
-        v = turn(v)
-        push!(vs, v)
-      end
-    end
-    v = roll(turn(roll(v)))
-  end
-  return vs
-end
-rotations = rot([1, 2, 3])
+using LinearAlgebra, Combinatorics
 
-rotate(p, r) = [i > 0 ? p[i] : -p[-i] for i ∈ r]
+rotations = []
+for x ∈ (-1,1), y ∈ (-1,1), z ∈ (-1,1)
+  for q in permutations([[x 0 0], [0 y 0], [0 0 z]])
+    m = vcat(q...)
+    if det(m) == 1
+      push!(rotations, m)
+    end
+  end
+end
+
 shiftall(ps, p) = [px - p for px ∈ ps]
-rotateall(ps, r) = [rotate(p, r) for p ∈ ps]
+rotateall(ps, r) = [r * p for p ∈ ps]
 
 function merge(s1, s2)
   for p1 ∈ s1.beacons
