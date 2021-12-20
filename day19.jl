@@ -63,7 +63,7 @@ while length(scanners) > 1
   for i ∈ 1:length(scanners), j ∈ (i+1):length(scanners)
     merged = merge(scanners[i], scanners[j])
     if !isnothing(merged)
-      global scanners = vcat([s for (k, s) ∈ enumerate(scanners) if k != i && k != j], [merged])
+      global scanners = vcat(scanners[setdiff(1:end, (i, j))], [merged])
       break
     end
   end
