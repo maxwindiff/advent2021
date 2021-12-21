@@ -1,15 +1,17 @@
 function count_increases(nums, len)
-  last = sum(nums[1:len])
-  inc = 0
-  for i ∈ len:length(nums)
-    sum2 = sum(nums[i-len+1:i])
-    inc += sum2 > last ? 1 : 0
-    last = sum2
+  increases = 0
+  for i ∈ len+1:length(nums)
+    if sum(nums[i-len+1:i]) > sum(nums[i-len:i-1])
+      increases += 1
+    end
   end
-  return inc
+  return increases
 end
 
 nums = parse.(Int, readlines("data/day01.txt"))
 
-println(count_increases(nums, 1))
-println(count_increases(nums, 3))
+# Part 1 - How many measurements are larger than the previous measurement?
+println("part1 = ", count_increases(nums, 1))
+
+# Part 2 - Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?
+println("part2 = ", count_increases(nums, 3))

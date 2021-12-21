@@ -32,5 +32,8 @@ cmds = map(readlines("data/day02.txt")) do x
   return a, parse(Int, b)
 end
 
-println(pos1(cmds))
-println(pos2(cmds))
+# Part 1 - What do you get if you multiply your final horizontal position by your final depth?
+println("part1 = ", pos1(cmds))
+
+# Part 2 - Using this new interpretation... What do you get if you multiply your final horizontal position by your final depth?
+println("part2 = ", pos2(cmds))

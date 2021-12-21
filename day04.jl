@@ -1,20 +1,3 @@
-struct Boards
-  io::Base.IO
-end
-function Base.iterate(b::Boards, state=nothing)
-  board = []
-  while true
-    line = readline(b.io)
-    if !isempty(line)
-      push!(board, parse.(Int, split(line)))
-    elseif !isempty(board)
-      return (board, nothing)
-    elseif eof(b.io)
-      return nothing
-    end
-  end
-end
-
 function won(board)
   for row in eachrow(board)
     all(row .== -1) && return true
@@ -25,45 +8,30 @@ function won(board)
   return false
 end
 
-function calc_score(board, seq)
+function score(board, seq)
   loc = Dict()
-  for (i, row) ∈ enumerate(board)
-    for (j, v) ∈ enumerate(row)
-      loc[v] = (j, i)
-    end
+  for i ∈ eachindex(board)
+    loc[board[i]] = i
   end
-  nd = hcat(board...)
-  for (i, s) ∈ enumerate(seq)
+  for (step, s) ∈ enumerate(seq)
     if s ∈ keys(loc)
-      nd[loc[s]...] = -1
-      if won(nd)
-        #println("nd = $nd step = $i s = $s sum = $(sum(nd[nd .!= -1]))")
-        return i, s * sum(nd[nd .!= -1])
+      board[loc[s]] = -1
+      if won(board)
+        return step, s * sum(board[board .!= -1])
       end
     end
   end
-  return 100, 0
-end
-
-function best_board(boards, seq, want_first)
-  best_steps = want_first ? 100 : 0
-  best_score = 0
-
-  for board ∈ boards
-    steps, score = calc_score(board, seq)
-    if (want_first && steps < best_steps) || (!want_first && steps > best_steps)
-      best_steps = steps
-      best_score = score
-    end
-  end
-
-  return best_score
+  return typemax(Int), 0
 end
 
 f = open("data/day04.txt")
-seq = parse.(Int, split(readline(f), ","))
-println(best_board(Boards(f), seq, true))
+seq = parse.(Int, split(readline(f), ','))
+groups = split(read(f, String), "\n\n", keepempty=false)
+boards = [reshape(parse.(Int, split(x, keepempty=false)), 5, 5) for x ∈ groups]
+results = score.(boards, [seq])
 
-f = open("data/day04.txt")
-seq = parse.(Int, split(readline(f), ","))
-println(best_board(Boards(f), seq, false))
+# Part 1 - ...figure out which board will win first. What will your final score be if you choose that board?
+println("part1 = ", argmin(((steps, score),) -> steps, results))
+
+# Part 2 - Figure out which board will win last. Once it wins, what would its final score be?
+println("part2 = ", argmax(((steps, score),) -> steps, results))

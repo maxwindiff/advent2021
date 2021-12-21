@@ -1,9 +1,8 @@
 using OffsetArrays
 
 vents = map(readlines("data/day05.txt")) do x
-  m = match(r"(\d+),(\d+) -> (\d+),(\d+)", x)
-  n = parse.(Int, m.captures)
-  return (a=(x=n[1], y=n[2]), b=(x=n[3], y=n[4]))
+  m = parse.(Int, match(r"(\d+),(\d+) -> (\d+),(\d+)", x))
+  return (a=(x=m[1], y=m[2]), b=(x=m[3], y=m[4]))
 end
 
 x_max = maximum(v -> max(v.a.x, v.b.x), vents)
@@ -28,6 +27,9 @@ for (a, b) ∈ vents
     end
   end
 end
-#display(floor1)
-println(count(>(1), floor1))
-println(count(>(1), floor2))
+
+# Part 1 - Consider only horizontal and vertical lines. At how many points do at least two lines overlap?
+println("part1 = ", count(>(1), floor1))
+
+# Part 2 - Consider all of the lines. At how many points do at least two lines overlap?
+println("part2 = ", count(>(1), floor2))
