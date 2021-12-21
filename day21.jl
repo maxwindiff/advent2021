@@ -39,11 +39,11 @@ function part2(init)
     for (dice, times) ∈ dices
       if turn == 1
         p1new = mod1(p1 + dice, 10)
-        s1new = min(21, s1 + p1new)
+        s1new = clamp(s1 + p1new, 0, 21)
         counts[s1new, s2, p1new, p2, next(turn)] += from * times
       else
         p2new = mod1(p2 + dice, 10)
-        s2new = min(21, s2 + p2new)
+        s2new = clamp(s2 + p2new, 0, 21)
         counts[s1, s2new, p1, p2new, next(turn)] += from * times
       end
     end

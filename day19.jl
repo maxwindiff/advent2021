@@ -13,14 +13,14 @@ end
 function merge(s1, s2)
   for p1 ∈ s1.beacons
     shifted1 = s1.beacons .- [p1]
-    sdists1 = [sum(p.^2) for p ∈ shifted1]
+    sqdists1 = [sum(p.^2) for p ∈ shifted1]
 
     for p2 ∈ s2.beacons
       shifted2 = s2.beacons .- [p2]
 
       # Sanity check
-      sdists2 = [sum(p.^2) for p ∈ shifted2]
-      length(intersect(sdists1, sdists2)) < 12 && continue
+      sqdists2 = [sum(p.^2) for p ∈ shifted2]
+      length(intersect(sqdists1, sqdists2)) < 12 && continue
 
       for r ∈ rotations
         rotated2 = [r] .* shifted2

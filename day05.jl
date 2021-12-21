@@ -12,17 +12,17 @@ floor2 = OffsetArray(zeros(Int, x_max+1, y_max+1), 0:x_max, 0:y_max)
 
 for (a, b) ∈ vents
   if a.x == b.x
-    for y ∈ a.y:sign(b.y - a.y):b.y
+    for y ∈ a.y:cmp(b.y, a.y):b.y
       floor1[a.x, y] += 1
       floor2[a.x, y] += 1
     end
   elseif a.y == b.y
-    for x ∈ a.x:sign(b.x - a.x):b.x
+    for x ∈ a.x:cmp(b.x, a.x):b.x
       floor1[x, a.y] += 1
       floor2[x, a.y] += 1
     end
   else
-    for (x, y) ∈ zip(a.x:sign(b.x - a.x):b.x, a.y:sign(b.y - a.y):b.y)
+    for (x, y) ∈ zip(a.x:cmp(b.x, a.x):b.x, a.y:cmp(b.y, a.y):b.y)
       floor2[x, y] += 1
     end
   end
