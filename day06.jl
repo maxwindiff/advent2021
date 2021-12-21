@@ -11,7 +11,11 @@ function sim(init=[1 0 0 0 0 0 0 0 0], days=80)
   return sum(state[days, :])
 end
 
-fishes = parse.(Int, split(readline("data/day06.txt"), ","))
+fishes = parse.(Int, split(readline("data/day06.txt"), ','))
 state = [count(==(i), fishes) for i ∈ 0:8]
-println(sim(state, 80))
-println(sim(state, 256))
+
+# Part 1 - How many lanternfish would there be after 80 days?
+println("part1 = ", sim(state, 80))
+
+# Part 2 - How many lanternfish would there be after 256 days?
+println("part2 = ", sim(state, 256))

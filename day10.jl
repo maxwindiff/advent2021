@@ -29,6 +29,10 @@ for l ∈ readlines("data/day10.txt")
     push!(score2s, score2)
   end
 end
-println(score1)
+
+# Part 1 - What is the total syntax error score for those errors?
+println("part1 = ", score1)
+
+# Part 2 - Find the completion string for each incomplete line, score the completion strings, and sort the scores. What is the middle score?
 sort!(score2s)
-println(score2s[(length(score2s)+1) ÷ 2])
+println("part2 = ", score2s[(length(score2s)+1) ÷ 2])
