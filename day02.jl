@@ -29,7 +29,7 @@ end
 
 cmds = map(readlines("data/day02.txt")) do x
   a, b = split(x)
-  return (a, parse(Int, b))
+  return a, parse(Int, b)
 end
 
 println(pos1(cmds))

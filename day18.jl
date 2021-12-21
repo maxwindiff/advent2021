@@ -31,7 +31,6 @@ function add_links(num)
     end
   end
   recur(num)
-  return num
 end
 
 function explode(num, level)

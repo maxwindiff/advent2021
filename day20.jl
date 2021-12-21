@@ -5,7 +5,7 @@ function enhance(img, mapping)
   out = zero(img)
   ax, ay = axes(img)
   for i ∈ ax[2]:ax[end-1], j ∈ ay[2]:ay[end-1]
-    bits = reverse(vcat((img[x, j-1:j+1] for x ∈ (i-1):(i+1))...))
+    bits = reverse(vec(img[i-1:i+1, j-1:j+1]'))
     out[i, j] = mapping[packbits(bits)]
   end
   border = mapping[packbits(repeat([img[1,1]], 9))]

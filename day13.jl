@@ -22,8 +22,8 @@ for (i, (dir, loc)) ∈ enumerate(folds)
   end
 end
 
-mx = maximum(dots) do (x, y) return x end
-my = maximum(dots) do (x, y) return y end
+mx = maximum(((x, y),) -> x, dots)
+my = maximum(((x, y),) -> y, dots)
 output = fill(' ', my+1, mx+1)
 for (x, y) ∈ dots
   output[y+1, x+1] = '■'
