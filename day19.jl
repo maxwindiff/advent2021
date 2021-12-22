@@ -18,9 +18,9 @@ function merge(s1, s2)
     for p2 ∈ s2.beacons
       shifted2 = s2.beacons .- [p2]
 
-      # Sanity check
+      # Sanity check, we expect at least ~10 collisions of squared distance
       sqdists2 = [sum(p.^2) for p ∈ shifted2]
-      length(intersect(sqdists1, sqdists2)) < 12 && continue
+      length(intersect(sqdists1, sqdists2)) < 10 && continue
 
       for r ∈ rotations
         rotated2 = [r] .* shifted2
@@ -57,5 +57,9 @@ while length(scanners) > 1
   end
 end
 final = scanners[1]
-println(length(final.beacons))
-println(maximum((sum(abs.(s1-s2)) for s1 ∈ final.scanners, s2 ∈ final.scanners)))
+
+# Part 1 - How many beacons are there?
+println("part1 = ", length(final.beacons))
+
+# Part 2 - What is the largest Manhattan distance between any two scanners?
+println("part2 = ", maximum((sum(abs.(s1-s2)) for s1 ∈ final.scanners, s2 ∈ final.scanners)))

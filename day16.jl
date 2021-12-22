@@ -3,7 +3,7 @@ using BitBasis: packbits
 struct Packet
   version::Int
   type::Int
-  value::BigInt
+  value::Int
   children::Vector{Packet}
 end
 
@@ -70,10 +70,13 @@ function part2(p)
 end
 
 for l ∈ eachline("data/day16.txt")
-  println(l)
+  println("\n", l, "\n")
   bits = reverse(digits(Bool, parse(BigInt, l, base=16), base=2, pad=length(l)*4))
   packet = parsebits(bits)[1]
-  println("part1 = $(part1(packet))")
-  println("part2 = $(part2(packet))")
-  println()
+
+  # Part 1 - What do you get if you add up the version numbers in all packets?
+  println("part1 = ", part1(packet))
+
+  # Part 2 - What do you get if you evaluate the expression represented by your hexadecimal-encoded BITS transmission?
+  println("part2 = ", part2(packet))
 end

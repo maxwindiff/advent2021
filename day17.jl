@@ -1,5 +1,5 @@
 m = match(r"target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)", readline("data/day17.txt"))
-(x1, x2, y1, y2) = parse.(Int, m.captures)
+(x1, x2, y1, y2) = parse.(Int, m)
 
 hit(x, y) = x ∈ x1:x2 && y ∈ y1:y2
 
@@ -25,19 +25,22 @@ function sim(dx, dy)
 end
 
 my = typemin(Int)
-trials, successes = 0, 0
-for dx ∈ 1:x2, dy ∈ y1:-y1
-  (path, result) = sim(dx, dy)
-  global trials += 1
-  if result == :success
-    global my = max(my, maximum(w -> w[2], path))
-    global successes += 1
-  elseif result == :x_bounds
-    # increasing dy will only make it go even more out of bounds
-    break
+successes = 0
+for dx ∈ 1:x2
+  for dy ∈ y1:-y1
+    (path, result) = sim(dx, dy)
+    if result == :success
+      global my = max(my, maximum(((x, y),) -> y, path))
+      global successes += 1
+    elseif result == :x_bounds
+      # increasing dy will only make it go even more out of bounds
+      break
+    end
   end
 end
 
-println(my)
-println(successes)
-println(trials)
+# Part 1 - What is the highest y position it reaches on this trajectory?
+println("part1 = ", my)
+
+# Part 2 - How many distinct initial velocity values cause the probe to be within the target area after any step?
+println("part2 = ", successes)

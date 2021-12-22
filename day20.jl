@@ -26,5 +26,6 @@ buf = zeros(Bool, sx+t*4, sy+t*4)
 buf[(1+t*2):(sx+t*2), (1+t*2):(sy+t*2)] = input
 for i ∈ 1:t
   global buf = enhance(buf, mapping)
+  # Part 1 & 2 - How many pixels are lit in the resulting image? (after 2 or 50 iterations)
   println("$i: $(sum(buf))")
 end

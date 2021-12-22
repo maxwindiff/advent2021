@@ -92,7 +92,9 @@ end
 
 nums = map(x -> parse_snail(x)[1], readlines("data/day18.txt"))
 final = foldl((a, b) -> reduce!(deepcopy(pair(a, b))), nums)
-println("magnitude = $(mag(final))")
+
+# Part 1 - What is the magnitude of the final sum?
+println("part1 = ", mag(final))
 
 best = 0
 for (i, a) ∈ enumerate(nums), (j, b) ∈ enumerate(nums)
@@ -100,4 +102,6 @@ for (i, a) ∈ enumerate(nums), (j, b) ∈ enumerate(nums)
     global best = max(best, mag(reduce!(deepcopy(pair(a, b)))))
   end
 end
-println("best = $best")
+
+# Part 2 - What is the largest magnitude of any sum of two different snailfish numbers from the homework assignment?
+println("part2 = ", best)
