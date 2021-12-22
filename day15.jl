@@ -6,7 +6,7 @@ end...)
 
 function dijk(m)
   src = CartesianIndex(1, 1)
-  dst = CartesianIndex(size(m)...)
+  dst = CartesianIndex(size(m)...)  # bottom-right corner
 
   queue = PriorityQueue{CartesianIndex, Int}()
   dist = fill(typemax(Int), size(m)...)
@@ -31,9 +31,12 @@ function dijk(m)
   return dist[dst]
 end
 
-println(dijk(m))
+# Part 1 - What is the lowest total risk of any path from the top left to the bottom right?
+println("part1 = ", dijk(m))
 
 m2 = hcat([m .+ i for i ∈ 0:4]...)
 m2 = vcat([m2 .+ i for i ∈ 0:4]...)
 m2[m2 .>= 10] .-= 9
-println(dijk(m2))
+
+# Part 2 - Using the full map, what is the lowest total risk of any path from the top left to the bottom right?
+println("part2 = ", dijk(m2))

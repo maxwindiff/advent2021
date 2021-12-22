@@ -8,10 +8,10 @@ function setup(seq)
   return counts, seq[1], seq[end]
 end
 
-function sim(state, insertions, steps)
+function sim!(state, insertions, steps)
   state = DefaultDict(0, state)  # defensive copy since we are mutating
   for _ ∈ 1:steps
-    for (pair, count) ∈ collect(pairs(state))  # collect is to make a copy
+    for (pair, count) ∈ collect(pairs(state))  # collect() to make a copy
       if haskey(insertions, pair)
         state[pair[1] * insertions[pair]] += count
         state[insertions[pair] * pair[2]] += count
@@ -40,7 +40,8 @@ readline(f)
 insertions = Dict(map(x -> split(x, " -> "), eachline(f)))
 
 for steps ∈ [10, 40]
-  result = sim(state, insertions, steps)
+  result = sim!(state, insertions, steps)
   counts = count(result, s, e)
-  println(maximum(values(counts)) - minimum(values(counts)))
+  # Part 1 & 2 - What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?
+  println("partX = ", maximum(values(counts)) - minimum(values(counts)))
 end

@@ -34,5 +34,9 @@ for step ∈ 1:300
     first_sync = step
   end
 end
-println(total_flashes)
-println(first_sync)
+
+# Part 1 - How many total flashes are there after 100 steps?
+println("part1 = ", total_flashes)
+
+# Part 2 - What is the first step during which all octopuses flash?
+println("part2 = ", first_sync)

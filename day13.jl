@@ -18,7 +18,8 @@ for (i, (dir, loc)) ∈ enumerate(folds)
     return (x, y)
   end
   if i == 1
-    println(length(Set(dots)))
+    # Part 1 - How many dots are visible after completing just the first fold instruction on your transparent paper?
+    println("part1 = ", length(Set(dots)))
   end
 end
 
@@ -28,6 +29,9 @@ output = fill(' ', my+1, mx+1)
 for (x, y) ∈ dots
   output[y+1, x+1] = '■'
 end
+
+# What code do you use to activate the infrared thermal imaging camera system?
+println("part2:")
 for row ∈ eachrow(output)
   println(join(row, ""))
 end
