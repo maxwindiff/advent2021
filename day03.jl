@@ -45,7 +45,7 @@ function find_common(lines, most)
       return only(lines)
     end
   end
-  throw(ArgumentError("cannot narrow down to a single string"))
+  error("cannot narrow down to a single string")
 end
 
 function part2(lines)
