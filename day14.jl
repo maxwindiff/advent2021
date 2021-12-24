@@ -39,9 +39,9 @@ state, s, e = setup(readline(f))
 readline(f)
 insertions = Dict(map(x -> split(x, " -> "), eachline(f)))
 
+# Part 1 & 2 - What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?
 for steps ∈ [10, 40]
   result = sim!(state, insertions, steps)
   counts = count(result, s, e)
-  # Part 1 & 2 - What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?
   println("partX = ", maximum(values(counts)) - minimum(values(counts)))
 end

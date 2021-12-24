@@ -96,12 +96,11 @@ final = foldl((a, b) -> reduce!(deepcopy(pair(a, b))), nums)
 # Part 1 - What is the magnitude of the final sum?
 println("part1 = ", mag(final))
 
+# Part 2 - What is the largest magnitude of any sum of two different snailfish numbers from the homework assignment?
 best = 0
 for (i, a) ∈ enumerate(nums), (j, b) ∈ enumerate(nums)
   if i != j
     global best = max(best, mag(reduce!(deepcopy(pair(a, b)))))
   end
 end
-
-# Part 2 - What is the largest magnitude of any sum of two different snailfish numbers from the homework assignment?
 println("part2 = ", best)

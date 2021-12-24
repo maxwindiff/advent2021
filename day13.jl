@@ -30,7 +30,7 @@ for (x, y) ∈ dots
   output[y+1, x+1] = '■'
 end
 
-# What code do you use to activate the infrared thermal imaging camera system?
+# Part 2 - What code do you use to activate the infrared thermal imaging camera system?
 println("part2:")
 for row ∈ eachrow(output)
   println(join(row, ""))

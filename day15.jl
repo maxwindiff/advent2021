@@ -34,9 +34,8 @@ end
 # Part 1 - What is the lowest total risk of any path from the top left to the bottom right?
 println("part1 = ", dijk(m))
 
+# Part 2 - Using the full map, what is the lowest total risk of any path from the top left to the bottom right?
 m2 = hcat([m .+ i for i ∈ 0:4]...)
 m2 = vcat([m2 .+ i for i ∈ 0:4]...)
 m2[m2 .>= 10] .-= 9
-
-# Part 2 - Using the full map, what is the lowest total risk of any path from the top left to the bottom right?
 println("part2 = ", dijk(m2))
