@@ -12,15 +12,15 @@ masked = m[mask]
 println("part1 = ", sum(masked) + length(masked))
 
 # Part 2 - What do you get if you multiply together the sizes of the three largest basins?
-function dfs((x, y), visited)
-  if visited[x,y] || m[x,y] == 9
+function dfs(idx, visited)
+  if visited[idx] || m[idx] == 9
     return 0
   end
-  visited[x,y] = true
+  visited[idx] = true
 
   size = 1
-  for next ∈ [(x-1,y), (x+1,y), (x,y-1), (x,y+1)]
-    if checkbounds(Bool, m, next...) && m[next...] > m[x,y]
+  for next ∈ [idx + CartesianIndex(shift) for shift ∈ [(-1,0), (1,0), (0,-1), (0,1)]]
+    if checkbounds(Bool, m, next) && m[next] > m[idx]
       size += dfs(next, visited)
     end
   end
@@ -30,7 +30,7 @@ end
 visited = zero(mask)
 basins = []
 for idx ∈ findall(==(1), mask)
-  push!(basins, dfs(Tuple(idx), visited))
+  push!(basins, dfs(idx, visited))
 end
 sort!(basins, rev=true)
 println("part2 = ", basins[1]*basins[2]*basins[3])
