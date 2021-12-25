@@ -3,34 +3,32 @@ using Folds
 
 mutable struct State
   regs::Vector{Int64}
-  max::Int64
-  min::Int64
+  best::Int64
 end
 
-function reduce(states)
-  bests = Dict{Int64, Vector{Int64}}()
+function reduce(states, reducefunc)
+  bests = Dict{Int64, Int64}()
   sizehint!(bests, length(states))
   for state ∈ states
     z = state.regs[3]
     if haskey(bests, z)
-      best = bests[z]
-      best[1] = max(best[1], state.max)
-      best[2] = min(best[2], state.min)
+      bests[z] = reducefunc(bests[z], state.best)
     else
-      bests[z] = [state.max, state.min]
+      bests[z] = state.best
     end
   end
   return bests
 end
 
-function sim(cmds)
-  states = [State([0, 0, 0, 0], 0, 0)]
+function sim(cmds, reducefunc)
+  states = [State([0, 0, 0, 0], 0)]
 
   for (i, (cmd, dst, src, val)) ∈ enumerate(cmds)
     if cmd == "inp"
-      @time bests = reduce(states)
+      # Assume registers x and y will be wiped out
+      @time bests = reduce(states, reducefunc)
       println(length(states), " => ", length(bests))
-      @time states = Folds.collect(State([0, 0, z, d], max*10+d, min*10+d) for (z, (max, min)) ∈ bests, d ∈ 1:9)
+      @time states = Folds.collect(State([0, 0, z, d], best*10+d) for (z, best) ∈ bests, d ∈ 1:9)
       println(length(bests), " => ", length(states))
     else
       Threads.@threads for state ∈ states
@@ -51,9 +49,7 @@ function sim(cmds)
     println("$i: $(length(states))")
   end
 
-  valid = filter(s -> s.regs[3] == 0, states)
-  println("z=0: ", valid)
-  return maximum(s -> s.max, valid), minimum(s -> s.min, valid)
+  return map(s -> s.best, filter(s -> s.regs[3] == 0, states))
 end
 
 addr = Dict("x" => 1, "y" => 2, "z" => 3, "w" => 4)
@@ -66,10 +62,10 @@ cmds = map(readlines("data/day24.txt")) do line
   return (cmd=tokens[1], dst=addr[tokens[2]], src=src, val=val)
 end
 
-@time m, n = sim(cmds)
-
 # Part 1 - What is the largest model number accepted by MONAD?
-println("part1 = ", m)
+@time m = sim(cmds, max)
+println("part1 = ", maximum(m))
 
 # Part 2 - What is the smallest model number accepted by MONAD?
-println("part2 = ", n)
+@time m = sim(cmds, min)
+println("part1 = ", minimum(m))
