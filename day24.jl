@@ -1,16 +1,24 @@
 using DataStructures: DefaultDict
+using Folds
 
 mutable struct State
-  regs::Vector{Int}
+  regs::Vector{Int64}
   max::Int64
   min::Int64
 end
 
 function reduce(states)
-  bests = DefaultDict((0, typemax(Int64)))
+  bests = Dict{Int64, Vector{Int64}}()
+  sizehint!(bests, length(states))
   for state ∈ states
-    best = bests[state.regs[3]]
-    bests[state.regs[3]] = (max(best[1], state.max), min(best[2], state.min))
+    z = state.regs[3]
+    if haskey(bests, z)
+      best = bests[z]
+      best[1] = max(best[1], state.max)
+      best[2] = min(best[2], state.min)
+    else
+      bests[z] = [state.max, state.min]
+    end
   end
   return bests
 end
@@ -22,7 +30,7 @@ function sim(cmds)
     if cmd == "inp"
       @time bests = reduce(states)
       println(length(states), " => ", length(bests))
-      @time states = collect(State([0, 0, z, d], max*10+d, min*10+d) for (z, (max, min)) ∈ bests, d ∈ 1:9)
+      @time states = Folds.collect(State([0, 0, z, d], max*10+d, min*10+d) for (z, (max, min)) ∈ bests, d ∈ 1:9)
       println(length(bests), " => ", length(states))
     else
       Threads.@threads for state ∈ states
